@@ -3,6 +3,7 @@ var app = express();
 var KwsSdk = require('sa-kws-node-sdk');
 var bodyParser = require('body-parser')
 
+
 var endpoints = [
     'app.user.create',
     'app.user.authenticate'
