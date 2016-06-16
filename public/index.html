@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <title>KWS SDK test</title>
+</head>
+<body>
+    KWS Tests
+
+    <br/>
+    <button id="login" class="sa_sign_in" onclick="kwsSdk.signIn()"></button>
+    <br/>
+    <a href="#" id="logout" onclick="kwsSdk.signOut()">Logout (<span id="displayName"></span>)</a>
+    <br/>
+    <button id="userdata" onclick="getUserData()">Get user data</button>
+
+    <script type="text/javascript" src="https://kws-sdk.superawesome.tv?v=1"></script>
+    <script type="text/javascript" >
+        var kwsSdk = new KwsSdk({
+            clientId: 'sa-mobile-app-sdk-client-0',
+            kwsApiHost: 'https://kwsapi.demo.superawesome.tv',
+            clubUrl: 'https://club.demo.superawesome.tv',
+            language: 'en',
+            crossDomain: true,
+            callbackHost: 'http://localhost:3003'
+        });
+
+        function getUserData() {
+            console.log('user data');
+
+            kwsSdk.user.get()
+                .then(function(user){
+                    console.log('Got user data', user);
+                })
+                .catch(function(){
+                    console.log('Call failed. User is not authenticated');
+                })
+                .finally(function(){
+
+                });
+        }
+
+    </script>
+</body>
+</html>
