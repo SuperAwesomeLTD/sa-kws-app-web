@@ -65,7 +65,7 @@ app.post('/create', function(req, res) {
             }));
         } else {
             res.send(JSON.stringify({
-                "status": 0,
+                "status": -1,
                 "error": "invalid"
             }));
         }
