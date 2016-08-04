@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
 var KwsSdk = require('sa-kws-node-sdk');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var geoip = require('geoip-lite');
 
 
 var endpoints = [
@@ -24,6 +25,7 @@ app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(extractCountry);
 app.use(kwsSdk.router);
 
 app.get('/', function(req, res) {
@@ -44,7 +46,8 @@ app.post('/create', function(req, res) {
         username: username,
         password: password,
         dateOfBirth: dateOfBirth,
-        authenticate: true
+        authenticate: true,
+        country: req.country
     }).then(function(result){
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
@@ -99,4 +102,25 @@ app.post('/auth', function(req, res) {
 // start app
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
-})
+});
+
+
+function extractCountry(req, res, next) {
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    
+    if (!ip) {
+        next();
+    }
+
+    if (ip.indexOf(',') !== -1) {
+        var temp = ip.split(',');
+        ip = temp[0];
+    }
+
+    var geo = geoip.lookup(ip);
+    if (geo){
+        req.country = geo.country;
+    }
+
+    next();
+}

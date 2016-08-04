@@ -9,8 +9,9 @@
   "author": "Gabriel Coman",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "*",
     "express": "^4.13.3",
-    "sa-kws-node-sdk": "^0.1.4",
-    "body-parser": "*"
+    "geoip-lite": "^1.1.8",
+    "sa-kws-node-sdk": "^0.1.4"
   }
 }
