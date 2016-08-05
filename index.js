@@ -41,13 +41,14 @@ app.post('/create', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var dateOfBirth = req.body.dateOfBirth;
+    var country = req.body.country;
 
     kwsSdk.app.user.create({
         username: username,
         password: password,
         dateOfBirth: dateOfBirth,
         authenticate: true,
-        country: req.country
+        country: country || req.country || 'GB'
     }).then(function(result){
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
